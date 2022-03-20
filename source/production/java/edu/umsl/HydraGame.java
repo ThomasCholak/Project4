@@ -21,6 +21,7 @@ public class HydraGame {
 
         myHydra.hydraHeads(); int inputHeads = reader.nextInt(); //set # of heads
         myHydra.hydraTails(); int inputTails = reader.nextInt(); //set # of tails
+        int turnCounter = 0; //track # of turns player has taken
 
         System.out.println(HydraMonster(inputHeads, inputTails)); //tell player what monster they've made
         System.out.println(); String selected = "You have selected: ";
@@ -33,25 +34,36 @@ public class HydraGame {
 
         if (moveSelector < 0 || moveSelector > 4) { System.out.println("Please try again."); }
         if (moveSelector == 1) {
-            inputHeads = inputHeads - 1;
+            inputHeads = inputHeads - 1; turnCounter++;
             System.out.print(selected); myPlayer.Move1();
-            System.out.println(HydraMonster(inputHeads, inputTails)); }
+            System.out.println(HydraMonster(inputHeads, inputTails));
+            System.out.println("The hydra grows back a head.");
+            inputHeads = inputHeads + 1;
+            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
         if (moveSelector == 2) {
-            inputTails = inputTails - 1;
+            inputTails = inputTails - 1; turnCounter++;
             System.out.print(selected); myPlayer.Move2();
-            System.out.println(HydraMonster(inputHeads, inputTails)); }
+            System.out.println(HydraMonster(inputHeads, inputTails));
+            System.out.println("The hydra grows back two tails.");
+            inputTails = inputTails + 2;
+            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
         if (moveSelector == 3) {
-            inputHeads = inputHeads - 2;
+            inputHeads = inputHeads - 2; turnCounter++;
             System.out.print(selected); myPlayer.Move3();
-            System.out.println(HydraMonster(inputHeads, inputTails)); }
+            System.out.println(HydraMonster(inputHeads, inputTails));
+            System.out.println("Nothing happens...");
+            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
         if (moveSelector == 4) {
-            inputTails = inputTails - 2;
+            inputTails = inputTails - 2; turnCounter++;
             System.out.print(selected); myPlayer.Move4();
-            System.out.println(HydraMonster(inputHeads, inputTails)); }
+            System.out.println(HydraMonster(inputHeads, inputTails));
+            System.out.println("The hydra grows back a  head.");
+            inputHeads = inputHeads + 1;
+            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
     }
 
     private static String HydraMonster (int heads, int tails) {
-        return "The hydra monster has " + heads + " heads and " + tails + " tails.";
+        return "The hydra monster has " + heads + " head(s) and " + tails + " tail(s).";
     }
     private static String ruleSet () {
         String Rule0 = "Hydra Game - Here are the handy rules of the game:";

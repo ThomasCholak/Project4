@@ -47,7 +47,7 @@ public class HydraGame {
             }
         } while (retry);
 
-        int bestTurn = bestCounter(inputHeads, inputTails); //store best possible turns for later
+        int S = bestCounter(inputHeads, inputTails); //calculates the least amount of turns needed to win
 
         System.out.println(HydraMonster(inputHeads, inputTails)); //tell player what monster they've made
         System.out.println();
@@ -60,12 +60,12 @@ public class HydraGame {
             try {
                 if (inputHeads % 2 == 1 && inputTails == 0) {
                     System.out.println("The dragon is now unkillable. You have failed Princess Perly.");
-                    System.out.println("The best knight in the land could have beaten the hydra in " + bestTurn + " turns.");
+                    System.out.println("The best knight in the land could have beaten the hydra in " + S + " turns.");
                     return;
                 } else if (inputHeads == 0 && inputTails == 0) {
                     System.out.println("You have saved Princess Pearly. Great job!");
                     System.out.println("It took you " + turnCounter + " turns to beat the hydra.");
-                    System.out.println("The least amount of turns you could have taken is " + bestTurn);
+                    System.out.println("The least amount of turns you could have taken is " + S + " turns.");
                     return;
                 } else {
                     myPlayer.Move1(); //display moves
@@ -145,7 +145,7 @@ public class HydraGame {
                     }
                     if (moveSelector == 5) {
                         System.out.println("You have selected the quit option.\n Thanks for playing!");
-                        System.out.println("Try to beat the hydra in " + bestTurn + " turns next time.");
+                        System.out.println("Try to beat the hydra in " + S + " turns next time.");
                         return;
                     }
                 }

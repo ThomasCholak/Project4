@@ -8,12 +8,15 @@ Assignment: Game where Knight PyPy has 4 moves and his goal is to kill a Hydra.
  */
 
 package edu.umsl;
+
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class HydraGame {
 
     public static void main (String[] args) {
         System.out.println(gameDescription()); System.out.println();
+        int turnCounter = 0; //track # of turns player has taken
 
         System.out.println(ruleSet()); System.out.println();
         Scanner reader = new Scanner(System.in);
@@ -21,47 +24,92 @@ public class HydraGame {
 
         myHydra.hydraHeads(); int inputHeads = reader.nextInt(); //set # of heads
         myHydra.hydraTails(); int inputTails = reader.nextInt(); //set # of tails
-        int turnCounter = 0; //track # of turns player has taken
+        int bestTurn = bestCounter(inputHeads, inputTails); //store best possible turns for later
 
         System.out.println(HydraMonster(inputHeads, inputTails)); //tell player what monster they've made
         System.out.println(); String selected = "You have selected: ";
+        playerMoves myPlayer = new playerMoves(); //output moves from Player interface
 
-        playerMoves myPlayer = new playerMoves(); //output moves from interface
         myPlayer.MovesAvailable();
-        myPlayer.Move1(); myPlayer.Move2(); myPlayer.Move3(); myPlayer.Move4();
-        myPlayer.SelectMove();
-        int moveSelector = reader.nextInt(); //choose the player's attack(move)
+        System.out.println("Quit - Enter 5 at any time to quit the game.");
 
-        if (moveSelector < 0 || moveSelector > 4) { System.out.println("Please try again."); }
-        if (moveSelector == 1) {
-            inputHeads = inputHeads - 1; turnCounter++;
-            System.out.print(selected); myPlayer.Move1();
-            System.out.println(HydraMonster(inputHeads, inputTails));
-            System.out.println("The hydra grows back a head.");
-            inputHeads = inputHeads + 1;
-            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
-        if (moveSelector == 2) {
-            inputTails = inputTails - 1; turnCounter++;
-            System.out.print(selected); myPlayer.Move2();
-            System.out.println(HydraMonster(inputHeads, inputTails));
-            System.out.println("The hydra grows back two tails.");
-            inputTails = inputTails + 2;
-            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
-        if (moveSelector == 3) {
-            inputHeads = inputHeads - 2; turnCounter++;
-            System.out.print(selected); myPlayer.Move3();
-            System.out.println(HydraMonster(inputHeads, inputTails));
-            System.out.println("Nothing happens...");
-            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
-        if (moveSelector == 4) {
-            inputTails = inputTails - 2; turnCounter++;
-            System.out.print(selected); myPlayer.Move4();
-            System.out.println(HydraMonster(inputHeads, inputTails));
-            System.out.println("The hydra grows back a  head.");
-            inputHeads = inputHeads + 1;
-            System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();}
+        while (true) {
+            if (inputHeads % 2 == 1 && inputTails == 0) {
+                System.out.println("The dragon is now unkillable. You have failed Princess Perly.");
+                System.out.println("The best knight in the land could have beaten the hydra in " + bestTurn + " turns.");  return;
+            } else if (inputHeads == 0 && inputTails == 0) {
+                System.out.println("You have saved Princess Pearly. Great job!");
+                System.out.println("It took you " + turnCounter + " turns to beat the hydra.");
+                System.out.println("The least amount of turns you could have taken is " + bestTurn); return;
+            } else {
+                myPlayer.Move1(); myPlayer.Move2(); myPlayer.Move3(); myPlayer.Move4();  //display moves
+                myPlayer.SelectMove();
+                int moveSelector = reader.nextInt(); //choose the player's attack(move)
+
+                if (moveSelector < 0 || moveSelector > 5) { System.out.println("Please try again."); }
+                if (moveSelector == 1) {
+                    if (inputHeads == 0) {
+                        System.out.println("No heads available to chop, please try again."); System.out.println();
+                    } else {
+                        inputHeads = inputHeads - 1; turnCounter++; //turn counter increases by 1
+                        System.out.print(selected); myPlayer.Move1();
+                        System.out.println(HydraMonster(inputHeads, inputTails));
+                        System.out.println("The hydra grows back a head.");
+                        inputHeads = inputHeads + 1;
+                        System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println(); } }
+                if (moveSelector == 2) {
+                    if (inputTails == 0) {
+                        System.out.println("No tails available to chop. Please try again."); System.out.println();
+                    } else {
+                        inputTails = inputTails - 1; turnCounter++;
+                        System.out.print(selected); myPlayer.Move2();
+                        System.out.println(HydraMonster(inputHeads, inputTails));
+                        System.out.println("The hydra grows back two tails.");
+                        inputTails = inputTails + 2;
+                        System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();} }
+                if (moveSelector == 3) {
+                    if (inputHeads <= 1) {
+                        System.out.println("Not enough heads available to chop. Please try again"); System.out.println();
+                    } else {
+                        inputHeads = inputHeads - 2; turnCounter++;
+                        System.out.print(selected); myPlayer.Move3();
+                        System.out.println(HydraMonster(inputHeads, inputTails));
+                        System.out.println("Nothing happens...");
+                        System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();} }
+                if (moveSelector == 4) {
+                    if (inputTails <= 1) {
+                        System.out.println("Not enough tails available to chop. Please try again."); System.out.println();
+                    } else {
+                        inputTails = inputTails - 2; turnCounter++;
+                        System.out.print(selected); myPlayer.Move4();
+                        System.out.println(HydraMonster(inputHeads, inputTails));
+                        System.out.println("The hydra grows back a  head.");
+                        inputHeads = inputHeads + 1;
+                        System.out.println(HydraMonster(inputHeads, inputTails)); System.out.println();} }
+                if (moveSelector == 5) {
+                    System.out.println("Thank you for playing the game!");
+                    System.out.println("Try to beat the hydra in " + bestTurn + " turns next time."); return;
+                }
+            }
+        }
     }
-
+    private static Integer bestCounter (int heads, int tails) { //calculate the least amount of moves
+        if (heads % 2 == 1 && tails % 2 == 0) { //heads odd and tails even
+            int x = tails / 2;
+            int y  = (heads + x) / 2;
+            return x + y; }
+        if (heads % 2 == 0 && tails % 2 ==1) { //heads even, tails odd
+            int x = (tails + 1) / 2;
+            int y = (heads + x) / 2;
+            return x + y + 1; }
+        if (heads % 2 == 1 && tails % 2 == 1) { //heads and tails odd
+            int x = ((heads + 1) / 2) + ((tails + 1) / 2);
+            return x + 1; }
+        else { //both even
+            int x = ((tails + 2) / 2);
+            int y = ((x + heads) / 2);
+            return x + y + 2; }
+    }
     private static String HydraMonster (int heads, int tails) {
         return "The hydra monster has " + heads + " head(s) and " + tails + " tail(s).";
     }

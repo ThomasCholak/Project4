@@ -137,7 +137,7 @@ public class HydraGame {
                             System.out.print(selected);
                             myPlayer.Move4();
                             System.out.println(HydraMonster(inputHeads, inputTails));
-                            System.out.println("The hydra grows back a  head.");
+                            System.out.println("The hydra grows back a head.");
                             inputHeads = inputHeads + 1;
                             System.out.println(HydraMonster(inputHeads, inputTails));
                             System.out.println();
